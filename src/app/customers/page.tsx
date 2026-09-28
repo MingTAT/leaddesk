@@ -1,4 +1,5 @@
 import { supabaseAdmin } from "@/lib/supabase/server";
+import Link from "next/link";
 
 export default async function CustomersPage() {
   const { data: customers, error } = await supabaseAdmin
@@ -19,11 +20,24 @@ export default async function CustomersPage() {
 
   return (
     <main className="mx-auto max-w-5xl p-8">
-      <h1 className="text-3xl font-bold">LeadDesk</h1>
+      <div className="flex items-start justify-between">
+  <div>
+    <h1 className="text-3xl font-bold">
+      LeadDesk
+    </h1>
 
-      <p className="mt-2 text-gray-600">
-        {customers.length} customers
-      </p>
+    <p className="mt-2 text-gray-600">
+      {customers.length} customers
+    </p>
+  </div>
+
+  <Link
+    href="/customers/new"
+    className="rounded-lg bg-white px-4 py-2 font-medium text-black"
+  >
+    + Add Customer
+  </Link>
+</div>
 
       <div className="mt-8 space-y-4">
         {customers.map((customer) => (
