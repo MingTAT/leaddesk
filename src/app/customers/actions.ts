@@ -4,6 +4,14 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { supabaseAdmin } from "@/lib/supabase/server";
 
+const allowedStatuses = [
+  "new",
+  "contacted",
+  "interested",
+  "won",
+  "lost",
+];
+
 export async function createCustomer(formData: FormData) {
   const name = formData.get("name")?.toString().trim();
   const phone = formData.get("phone")?.toString().trim();
@@ -66,14 +74,6 @@ export async function updateCustomerStatus(
   formData: FormData
 ) {
   const status = formData.get("status")?.toString();
-
-  const allowedStatuses = [
-    "new",
-    "contacted",
-    "interested",
-    "won",
-    "lost",
-  ];
 
   if (!status || !allowedStatuses.includes(status)) {
     throw new Error("Invalid customer status.");
