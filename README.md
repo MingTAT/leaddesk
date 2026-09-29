@@ -1,36 +1,218 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LeadDesk
 
-## Getting Started
+A minimal CRM for managing customer leads, follow-ups, and sales stages.
 
-First, run the development server:
+LeadDesk was built as Project 01 of my SaaS Lab — a series of small applications for exploring how real software products are designed, built, and deployed.
+
+## What it does
+
+LeadDesk helps a small business keep track of:
+
+- Customer leads
+- Lead sources
+- Sales stages
+- Customer needs
+- Follow-up history
+- Customer status changes
+- Lead filtering
+
+## Workflow
+
+A customer moves through a simple CRM pipeline:
+
+`New → Contacted → Interested → Won / Lost`
+
+Each customer can also have multiple follow-up interactions such as:
+
+- Phone
+- WeChat
+- Meeting
+- Other
+
+## Tech Stack
+
+- Next.js
+- TypeScript
+- Tailwind CSS
+- Supabase
+- PostgreSQL
+- Vercel
+
+## Data Model
+
+### customers
+
+Stores the current state of each customer.
+
+Fields include:
+
+- `name`
+- `phone`
+- `source`
+- `status`
+- `need`
+- `created_at`
+- `updated_at`
+
+### interactions
+
+Stores the history of customer communication.
+
+Each interaction belongs to one customer through `customer_id`.
+
+Relationship:
+
+`Customer 1 → N Interactions`
+
+## Features
+
+- Create customers
+- View customer list
+- View customer details
+- Add follow-up records
+- Update customer status
+- Filter customers by sales stage
+- CRM stage counts
+- Dynamic customer routes
+
+## Local Development
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Create a `.env.local` file in the project root:
+
+```env
+SUPABASE_URL=your_supabase_project_url
+SUPABASE_SECRET_KEY=your_supabase_secret_key
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Database
 
-## Learn More
+The database schema is stored in:
 
-To learn more about Next.js, take a look at the following resources:
+```text
+supabase/schema.sql
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Run the SQL in `supabase/schema.sql` inside your Supabase project before starting the application.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+```text
+leaddesk/
+├── src/
+│   ├── app/
+│   │   ├── customers/
+│   │   │   ├── [id]/
+│   │   │   ├── new/
+│   │   │   ├── actions.ts
+│   │   │   └── page.tsx
+│   │   └── page.tsx
+│   └── lib/
+│       └── supabase/
+│           └── server.ts
+├── supabase/
+│   └── schema.sql
+├── .env.example
+├── package.json
+└── README.md
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Environment Variables
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project requires:
+
+```env
+SUPABASE_URL=your_supabase_project_url
+SUPABASE_SECRET_KEY=your_supabase_secret_key
+```
+
+Do not commit your real `.env.local` file or secret keys to GitHub.
+
+## Security Note
+
+This project is currently a learning/demo application and does not include user authentication.
+
+The server uses a Supabase secret key to access the database, so this version should only be used with fake or demo data.
+
+Do not use real customer information or sensitive personal data in the public deployment.
+
+A production-ready version should add:
+
+- Authentication
+- User accounts
+- Organization accounts
+- Role-based permissions
+- Row Level Security policies
+- Audit logging
+
+## Development Flow
+
+This project was built through the following process:
+
+```text
+Create Next.js project
+↓
+Initialize local Git repository
+↓
+Connect GitHub repository
+↓
+Create Supabase database
+↓
+Design relational schema
+↓
+Read customer data
+↓
+Create customers
+↓
+Create dynamic customer pages
+↓
+Add follow-up interactions
+↓
+Update customer status
+↓
+Filter customers
+↓
+Build production version
+↓
+Deploy
+```
+
+## SaaS Lab
+
+**Project 01 — LeadDesk**
+
+This project focuses on understanding the complete lifecycle of a small web application:
+
+- Data modeling
+- CRUD
+- Relational databases
+- Server Components
+- Server Actions
+- Dynamic routing
+- Business workflows
+- Git and GitHub
+- Production builds
+- Deployment
+
+## Status
+
+Project 01 is intentionally kept small.
+
+The goal is not to build a full commercial CRM, but to complete the full path from an idea to a working deployed application.
