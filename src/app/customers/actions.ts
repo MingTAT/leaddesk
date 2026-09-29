@@ -32,3 +32,31 @@ export async function createCustomer(formData: FormData) {
   revalidatePath("/customers");
   redirect("/customers");
 }
+
+export async function addInteraction(
+  customerId: string,
+  formData: FormData
+) {
+  const type = formData.get("type")?.toString();
+  const content = formData.get("content")?.toString().trim();
+
+  if (!content) {
+    throw new Error("Follow-up content is required.");
+  }
+
+  const { error } = await supabaseAdmin
+    .from("interactions")
+    .insert({
+      customer_id: customerId,
+      type: type || "other",
+      content,
+    });
+
+  if (error) {
+    throw new Error(
+      `Failed to add interaction: ${error.message}`
+    );
+  }
+
+  revalidatePath(`/customers/${customerId}`);
+}
