@@ -39,40 +39,41 @@ export default async function CustomersPage() {
   </Link>
 </div>
 
-      <div className="mt-8 space-y-4">
-        {customers.map((customer) => (
-          <div
-            key={customer.id}
-            className="rounded-lg border p-4"
-          >
-            <div className="flex items-start justify-between">
-              <div>
-                <h2 className="text-lg font-semibold">
-                  {customer.name}
-                </h2>
+<div className="mt-8 space-y-4">
+  {customers.map((customer) => (
+    <Link
+      key={customer.id}
+      href={`/customers/${customer.id}`}
+      className="block rounded-lg border p-4 transition hover:bg-gray-900"
+    >
+      <div className="flex items-start justify-between">
+        <div>
+          <h2 className="text-lg font-semibold">
+            {customer.name}
+          </h2>
 
-                <p className="text-sm text-gray-500">
-                  {customer.phone}
-                </p>
-              </div>
+          <p className="text-sm text-gray-500">
+            {customer.phone}
+          </p>
+        </div>
 
-              <span className="rounded bg-gray-100 px-2 py-1 text-sm">
-                {customer.status}
-              </span>
-            </div>
-
-            <div className="mt-4 text-sm">
-              <p>
-                <strong>Source:</strong> {customer.source}
-              </p>
-
-              <p className="mt-1">
-                <strong>Need:</strong> {customer.need}
-              </p>
-            </div>
-          </div>
-        ))}
+        <span className="rounded bg-gray-100 px-3 py-1 text-sm font-medium text-gray-900">
+          {customer.status}
+        </span>
       </div>
+
+      <div className="mt-4 text-sm">
+        <p>
+          <strong>Source:</strong> {customer.source}
+        </p>
+
+        <p className="mt-1">
+          <strong>Need:</strong> {customer.need}
+        </p>
+      </div>
+    </Link>
+  ))}
+</div>
     </main>
   );
 }
