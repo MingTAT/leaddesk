@@ -1,5 +1,8 @@
 import Link from "next/link";
-import { addInteraction } from "../actions";
+import {
+  addInteraction,
+  updateCustomerStatus,
+} from "../actions";
 import { notFound } from "next/navigation";
 import { supabaseAdmin } from "@/lib/supabase/server";
 
@@ -16,6 +19,9 @@ export default async function CustomerPage({
 
   const addInteractionForCustomer =
   addInteraction.bind(null, id);
+
+  const updateStatusForCustomer =
+  updateCustomerStatus.bind(null, id);
 
   const { data: customer, error: customerError } =
     await supabaseAdmin
@@ -79,54 +85,85 @@ export default async function CustomerPage({
         </div>
       </div>
 
+
+        <section className="mt-8">
+         <h2 className="text-xl font-semibold">
+            Customer Status
+         </h2>
+
+        <form
+            action={updateStatusForCustomer}
+            className="mt-4 flex gap-3"
+        >
+            <select
+            name="status"
+            defaultValue={customer.status}
+            className="rounded-lg border border-gray-700 bg-black px-4 py-3"
+            >
+            <option value="new">New</option>
+            <option value="contacted">Contacted</option>
+            <option value="interested">Interested</option>
+            <option value="won">Won</option>
+            <option value="lost">Lost</option>
+        </select>
+
+            <button
+            type="submit"
+            className="rounded-lg bg-white px-5 py-3 font-medium text-black"
+            >
+            Update Status
+            </button>
+        </form>
+        </section>
+
         <section className="mt-10">
-  <h2 className="text-2xl font-semibold">
-    Add Follow-up
-  </h2>
+        <h2 className="text-2xl font-semibold">
+            Add Follow-up
+        </h2>
 
-  <form
-    action={addInteractionForCustomer}
-    className="mt-5 space-y-4 rounded-lg border p-5"
-  >
-    <div>
-      <label className="mb-2 block text-sm font-medium">
-        Type
-      </label>
+        <form
+            action={addInteractionForCustomer}
+            className="mt-5 space-y-4 rounded-lg border p-5"
+        >
+            <div>
+            <label className="mb-2 block text-sm font-medium">
+                Type
+            </label>
 
-      <select
-        name="type"
-        defaultValue="wechat"
-        className="w-full rounded-lg border border-gray-700 bg-black p-3"
-      >
-        <option value="phone">Phone</option>
-        <option value="wechat">WeChat</option>
-        <option value="meeting">Meeting</option>
-        <option value="other">Other</option>
-      </select>
-    </div>
+            <select
+                name="type"
+                defaultValue="wechat"
+                className="w-full rounded-lg border border-gray-700 bg-black p-3"
+            >
+                <option value="phone">Phone</option>
+                <option value="wechat">WeChat</option>
+                <option value="meeting">Meeting</option>
+                <option value="other">Other</option>
+            </select>
+            </div>
 
-    <div>
-      <label className="mb-2 block text-sm font-medium">
-        Notes
-      </label>
+            <div>
+            <label className="mb-2 block text-sm font-medium">
+                Notes
+            </label>
 
-      <textarea
-        name="content"
-        required
-        rows={4}
-        className="w-full rounded-lg border border-gray-700 bg-transparent p-3"
-        placeholder="What happened in this follow-up?"
-      />
-    </div>
+            <textarea
+                name="content"
+                required
+                rows={4}
+                className="w-full rounded-lg border border-gray-700 bg-transparent p-3"
+                placeholder="What happened in this follow-up?"
+            />
+            </div>
 
-    <button
-      type="submit"
-      className="rounded-lg bg-white px-5 py-3 font-medium text-black"
-    >
-      Add Follow-up
-    </button>
-  </form>
-</section>
+            <button
+            type="submit"
+            className="rounded-lg bg-white px-5 py-3 font-medium text-black"
+            >
+            Add Follow-up
+            </button>
+        </form>
+        </section>
 
       <section className="mt-10">
         <h2 className="text-2xl font-semibold">

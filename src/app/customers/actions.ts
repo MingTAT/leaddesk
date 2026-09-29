@@ -60,3 +60,36 @@ export async function addInteraction(
 
   revalidatePath(`/customers/${customerId}`);
 }
+
+export async function updateCustomerStatus(
+  customerId: string,
+  formData: FormData
+) {
+  const status = formData.get("status")?.toString();
+
+  const allowedStatuses = [
+    "new",
+    "contacted",
+    "interested",
+    "won",
+    "lost",
+  ];
+
+  if (!status || !allowedStatuses.includes(status)) {
+    throw new Error("Invalid customer status.");
+  }
+
+  const { error } = await supabaseAdmin
+    .from("customers")
+    .update({ status })
+    .eq("id", customerId);
+
+  if (error) {
+    throw new Error(
+      `Failed to update customer status: ${error.message}`
+    );
+  }
+
+  revalidatePath("/customers");
+  revalidatePath(`/customers/${customerId}`);
+}
